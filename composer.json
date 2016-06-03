@@ -1,0 +1,17 @@
+{
+  "name": "drdk/drupal/git-issue-extractor",
+  "description": "Extracts a list of Jira issues from a git commit range.",
+  "type": "project",
+  "require": {
+    "symfony/console": "2.*",
+    "psr/log": "~1.0",
+    "symfony/dependency-injection": "^2.7",
+    "symfony/config": "^2.7",
+    "symfony/process": "^2.7",
+    "symfony/yaml": "^2.7",
+    "rastor/jira-client": "^0.3.4"
+  },
+  "autoload": {
+    "psr-4": { "DR\\Drupal\\GitIssueExtractor\\": "src" }
+  }
+}

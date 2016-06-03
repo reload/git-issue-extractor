@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <imports>
+        <import resource="parameters.xml" />
+    </imports>
+    <services>
+        <!-- Setup the basic application -->
+        <service id="symfony.application"
+                 class="Symfony\Component\Console\Application">
+            <argument key="name">GitIssueExtractor</argument>
+            <argument key="version">1.0.0</argument>
+            <call method="add">
+                <argument type="service"
+                          id="issueextractor.issueextractor_command"/>
+            </call>
+        </service>
+
+        <!-- Define the main command -->
+        <service id="issueextractor.issueextractor_command"
+                 class="DR\Drupal\GitIssueExtractor\ExtractIssuesCommand">
+            <argument type="service" id="symfony.console_logger"/>
+            <argument type="service" id="issueextractor.jira_client"/>
+            <argument>%issueextractor.jira_endpoint%</argument>
+
+        </service>
+
+        <!-- Setup the Jira rest client with hardcoded credentials for a read-
+        only user -->
+        <service id="issueextractor.jira_client" class="JiraClient\JiraClient">
+            <argument>%issueextractor.jira_endpoint%</argument>
+            <argument>%issueextractor.jira_username%</argument>
+            <argument>%issueextractor.jira_password%</argument>
+        </service>
+
+        <!-- Tweaked levels so that info-logstatements gets out during normal operations -->
+        <service id="symfony.console_logger"
+                 class="Symfony\Component\Console\Logger\ConsoleLogger">
+            <argument type="service" id="symfony.console_output"/>
+            <argument type="collection">
+                <argument key="emergency" type="constant">Symfony\Component\Console\Output\OutputInterface::VERBOSITY_NORMAL</argument>
+                <argument key="alert" type="constant">Symfony\Component\Console\Output\OutputInterface::VERBOSITY_NORMAL</argument>
+                <argument key="critical" type="constant">Symfony\Component\Console\Output\OutputInterface::VERBOSITY_NORMAL</argument>
+                <argument key="error" type="constant">Symfony\Component\Console\Output\OutputInterface::VERBOSITY_NORMAL</argument>
+                <argument key="warning" type="constant">Symfony\Component\Console\Output\OutputInterface::VERBOSITY_NORMAL</argument>
+                <argument key="notice" type="constant">Symfony\Component\Console\Output\OutputInterface::VERBOSITY_NORMAL</argument>
+                <argument key="info" type="constant">Symfony\Component\Console\Output\OutputInterface::VERBOSITY_NORMAL</argument>
+                <argument key="debug" type="constant">Symfony\Component\Console\Output\OutputInterface::VERBOSITY_DEBUG</argument>
+            </argument>
+        </service>
+        <service id="symfony.console_output"
+                 class="Symfony\Component\Console\Output\ConsoleOutput">
+        </service>
+    </services>
+</container>

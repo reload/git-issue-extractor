@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="issueextractor.jira_endpoint">INSERT_JIRA_ENDPOINT_HERE</parameter>
+        <parameter key="issueextractor.jira_username">INSERT_USERNAME_HERE</parameter>
+        <parameter key="issueextractor.jira_password">INSERT_PASSWORD_HERE</parameter>
+    </parameters>
+</container>

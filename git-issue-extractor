@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php
+/**
+ * @file
+ * Setup a container and execute the issue extractor command.
+ */
+
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+$container = new ContainerBuilder();
+$loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/app/config'));
+$loader->load('services.xml');
+$application = $container->get('symfony.application');
+$status = $application->run();

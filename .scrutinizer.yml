@@ -1,0 +1,70 @@
+checks:
+    php:
+      code_rating: true
+
+build:
+  environment:
+    php: '5.6.16'
+    postgresql: false
+    redis: false
+
+
+before_commands:
+    - "composer install --prefer-source"
+
+tools:
+    # Code Sniffer
+    php_code_sniffer:
+        enabled:              true
+        config:
+            standard:         PSR2
+        filter:
+            excluded_paths:
+                - 'vendor/*'
+    # PHP CS Fixer (http://http://cs.sensiolabs.org/).
+    php_cs_fixer:
+        enabled:              true
+        config:
+            level:            psr2
+        filter:
+            excluded_paths:
+                - 'vendor/*'
+    # Analyzes the size and structure of a PHP project.
+    php_loc:
+        enabled:              true
+        excluded_dirs:
+            - vendor
+
+    # PHP Mess Detector (http://phpmd.org).
+    php_mess_detector:
+        enabled:              true
+        config:
+            rulesets:
+                - codesize
+                - unusedcode
+                - naming
+                - design
+        filter:
+            excluded_paths:
+                - 'vendor/*'
+
+
+    # Analyzes the size and structure of a PHP project.
+    php_pdepend:
+        enabled:              true
+        excluded_dirs:
+            - vendor
+
+    # Runs Scrutinizer's PHP Analyzer Tool
+    php_analyzer:
+        enabled:              true
+        filter:
+            excluded_paths:
+                - 'vendor/*'
+
+    # Security Advisory Checker
+    sensiolabs_security_checker: true
+
+build_failure_conditions:
+  # No new issues allowed.
+  - 'issues.new.exists'
